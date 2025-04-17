@@ -21,11 +21,6 @@ jobs:
       with:
         compiler: clang
 
-    - name: Use compiler
-      shell: bash
-      env:
-          CC: ${{ steps.install_cc.outputs.cc }}
-          CXX: ${{ steps.install_cc.outputs.cxx }}
 
     - name: Set up CMake + Ninja
       uses: lukka/get-cmake@latest
@@ -34,6 +29,9 @@ jobs:
         ninjaVersion: latest 
 
     - name: Configure with CMake (Ninja)
+      env:
+          CC: ${{ steps.install_cc.outputs.cc }}
+          CXX: ${{ steps.install_cc.outputs.cxx }}
       run: |
         cd boringssl
         mkdir build
