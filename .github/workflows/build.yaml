@@ -49,6 +49,5 @@ jobs:
       with:
         name: boringssl-libs
         path: |
-          boringssl/build/Release/crypto.lib
-          boringssl/build/Release/ssl.lib
-          boringssl/build/Release/bssl.exe
+          boringssl/build/crypto/crypto.lib
+          boringssl/build/ssl/ssl.lib
