@@ -1,11 +1,10 @@
-name: Build BoringSSL
+name: Build BoringSSL with Ninja
 
-# 👇 This adds the manual trigger button
 on:
   workflow_dispatch:
 
 jobs:
-  build-windows:
+  build-ninja:
     runs-on: windows-latest
 
     steps:
@@ -21,7 +20,7 @@ jobs:
       with:
         ninja: true
 
-    - name: Configure with CMake
+    - name: Configure with CMake (Ninja)
       run: |
         cd boringssl
         mkdir build
@@ -34,7 +33,7 @@ jobs:
         ninja
 
     - name: Upload .lib artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: boringssl-libs
         path: |
