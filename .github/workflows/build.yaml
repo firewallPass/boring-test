@@ -21,10 +21,17 @@ jobs:
       with:
         compiler: clang
 
+    - name: Use compiler
+      shell: bash
+      env:
+          CC: ${{ steps.install_cc.outputs.cc }}
+          CXX: ${{ steps.install_cc.outputs.cxx }}
+
     - name: Set up CMake + Ninja
       uses: lukka/get-cmake@latest
       with:
-        ninja: true
+        cmakeVersion: latestrc      
+        ninjaVersion: latest 
 
     - name: Configure with CMake (Ninja)
       run: |
