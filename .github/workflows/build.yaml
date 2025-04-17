@@ -1,0 +1,42 @@
+name: Build BoringSSL
+
+# 👇 This adds the manual trigger button
+on:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout this repo
+      uses: actions/checkout@v3
+
+    - name: Clone BoringSSL
+      run: |
+        git clone https://github.com/google/boringssl.git
+
+    - name: Set up CMake + Ninja
+      uses: lukka/get-cmake@latest
+      with:
+        ninja: true
+
+    - name: Configure with CMake
+      run: |
+        cd boringssl
+        mkdir build
+        cd build
+        cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
+
+    - name: Build with Ninja
+      run: |
+        cd boringssl/build
+        ninja
+
+    - name: Upload .lib artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: boringssl-libs
+        path: |
+          boringssl/build/crypto/crypto.lib
+          boringssl/build/ssl/ssl.lib
