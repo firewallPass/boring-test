@@ -29,6 +29,7 @@ jobs:
         ninjaVersion: latest 
 
     - name: Configure with CMake (Ninja)
+      uses: ilammy/setup-nasm@v1
       env:
           CC: ${{ steps.install_cc.outputs.cc }}
           CXX: ${{ steps.install_cc.outputs.cxx }}
@@ -37,16 +38,14 @@ jobs:
         mkdir build
         cd build
         cmake -G "Ninja" -DCMAKE_BUILD_TYPE=Release ..
-
-    - name: Build with Ninja
-      run: |
-        cd boringssl/build
         ninja
-
+   
+   
     - name: Upload .lib artifacts
       uses: actions/upload-artifact@v4
       with:
         name: boringssl-libs
         path: |
-          boringssl/build/crypto/crypto.lib
-          boringssl/build/ssl/ssl.lib
+          boringssl/build/Release/crypto.lib
+          boringssl/build/Release/ssl.lib
+          boringssl/build/Release/bssl.exe
